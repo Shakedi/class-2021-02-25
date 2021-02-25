@@ -61,6 +61,7 @@ small %>%
 
 ```{r}
 # trying the plot on the big data
+# just coppying the code chunk of the small plot 
 
 x %>% 
   select(dyear, dmonth) %>% 
