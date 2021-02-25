@@ -31,15 +31,48 @@ x <- read_csv("~/data/census/censoc_dmf_v2/censoc_dmf_v2.csv",
 create 1% sample of data
 
 ```{r}
+
+# It's preferable to first work on a small sample of the data and make sure
+# everything works.
+
 small <- x %>% 
-  slice_sample(prop = 0.01)
+  slice_sample(prop = 0.01) 
+  
 ```
 
 create bar plot of dmonth
 
 ```{r}
+
+# trying a plot on the small sample 
 small %>% 
-  ggplot(mapping = aes(x = dmonth)) +
-  geom_bar()
+  select(dyear, dmonth) %>% 
+  group_by(dmonth, dyear) %>% 
+  count() %>% 
+  pivot_wider(names_from = dmonth,
+              names_prefix = "dmonth_",
+              values_from = n) %>% 
+  mutate(jan_july_ratio = dmonth_1/dmonth_7 ) %>%  ggplot(mapping = aes(x = dyear,
+                       y = jan_july_ratio)) +
+  geom_point() +
+  geom_smooth(method = "lm",
+              formula = y ~ x)
+```
+
+```{r}
+# trying the plot on the big data
+
+x %>% 
+  select(dyear, dmonth) %>% 
+  group_by(dmonth, dyear) %>% 
+  count() %>% 
+  pivot_wider(names_from = dmonth,
+              names_prefix = "dmonth_",
+              values_from = n) %>% 
+  mutate(jan_july_ratio = dmonth_1/dmonth_7 ) %>%  ggplot(mapping = aes(x = dyear,
+                       y = jan_july_ratio)) +
+  geom_point() +
+  geom_smooth(method = "lm",
+              formula = y ~ x)
 ```
 
