@@ -28,6 +28,18 @@ x <- read_csv("~/data/census/censoc_dmf_v2/censoc_dmf_v2.csv",
                                     weight_conservative = col_double()))
 ```
 
+create 1% sample of data
 
+```{r}
+small <- x %>% 
+  slice_sample(prop = 0.01)
+```
 
+create bar plot of dmonth
+
+```{r}
+small %>% 
+  ggplot(mapping = aes(x = dmonth)) +
+  geom_bar()
+```
 
